@@ -1,12 +1,90 @@
 
-function getcycle(){
-    var inputDate = new Date(document.getElementById("date").value);
-    inputDate.setDate(inputDate.getDate()+1) ;//carl a valeur de l'input me renvoie un jours avant la bonne date
-    
-    var inputCycleLength = document.getElementById("duree-cycle").value;
-  console.log(inputDate);
-  console.log(inputCycleLength);
+       
+    function getcycle(){
+    var date = new Date((document.getElementById('date').value));// get user date selection
+    var dateN1= (date.setDate(date.getDate() + 1));// pour fair jour+1 dans une variable 
+
+    var dureeCycle= document.getElementById('duree-cycle').value;// on recupere l'input du nombre de jours du cycle
+    var cycle = new Date((date.setDate(date.getDate())) + (dureeCycle * 86400000)) ; // on addition la date + le nb de jours du cycle
+    var cycleToString= cycle.toLocaleDateString(); // on converti en  quelque choses de lisible
+    var n = (date.setDate(date.getDate())); 
+    console.log(n);
+    console.log(date);
+    var debutFecondation,finFecondation,prochaine,n4,ovule,cycleVrai
+
+
+    if (dureeCycle == 0){// si input=0 on gere avec le cycle par defaut
+
+
+    debutFecondation = new Date(n+864000000);
+    finFecondation = new Date(n+1382400000);
+    prochaine = new Date (n+2332800000 );
+    n4 = new Date(n+345600000); // dernier jour des regle
+    ovule = new Date( n+1209600000 );// jour d'ovulation
+
+    dateDebut= date.toLocaleDateString();
+    datefin=n4.toLocaleDateString();
+    prochaineRegle=prochaine.toLocaleDateString();
+    dateDebutFecondation=debutFecondation.toLocaleDateString();
+    dateFinFecondation=ovule.toLocaleDateString();
+    dateOvulation=finFecondation.toLocaleDateString();
+    cycleVrai= n - localStorage.getItem("debutCycle") ;
+    console.log(typeof(cycleVrai));
+    console.log(cycleVrai);
+
+    }
+    else{// 
+    ovule = new Date(cycle - ((dureeCycle*86400000) /2) );
+    debutFecondation = new Date(ovule - (86400000 *4));
+    console.log(debutFecondation);
+
+    finFecondation = new Date( ovule.setDate(ovule.getDate()) + 172800000);
+    console.log(finFecondation);
+    prochaine = new Date (cycle+2332800000 );
+    n4 = new Date(n+345600000); // dernier jour des regle
+   cycleVrai= localStorage.getItem("debutCycle") - n;
+   console.log(cycleVrai);
+
+    var test =  ovule===finFecondation;
+    console.log(test);
+
+    // var STORAGE 
+    dateDebut= date.toLocaleDateString();
+    datefin=n4.toLocaleDateString();
+    prochaineRegle=prochaine.toLocaleDateString();
+    dateDebutFecondation=debutFecondation.toLocaleDateString();
+    dateFinFecondation=ovule.toLocaleDateString();
+    dateOvulation=finFecondation.toLocaleDateString();
+  
+
+
+    }
+    document.getElementById("debut").innerHTML = date.toLocaleDateString();
+    document.getElementById("fin").innerHTML = n4.toLocaleDateString();
+    document.getElementById("prochaine").innerHTML = prochaine.toLocaleDateString();
+    document.getElementById("debutFecondation").innerHTML=debutFecondation.toLocaleDateString();
+    document.getElementById("finFecondation").innerHTML=finFecondation.toLocaleDateString();
+    document.getElementById("ovule").innerHTML = ovule.toLocaleDateString();
+    // setting items storage
+    localStorage.setItem("debutCycle",dateDebut);
+    localStorage.setItem("finCycle",datefin);
+    localStorage.setItem("prochaine",prochaineRegle);
+    localStorage.setItem("dFecondation",dateDebutFecondation);
+    localStorage.setItem("fFecondation",dateFinFecondation);
+    localStorage.setItem("ovulation",dateOvulation);
+
+    }
 
 
 
-}
+
+document.getElementById("sg-debut").innerHTML=localStorage.getItem("debutCycle");
+document.getElementById("sg-fin").innerHTML=localStorage.getItem("finCycle");
+document.getElementById("sg-prochaine").innerHTML=localStorage.getItem("prochaine");
+document.getElementById("sg-debutFecondation").innerHTML=localStorage.getItem("dFecondation");
+document.getElementById("sg-ovule").innerHTML=localStorage.getItem("fFecondation");
+document.getElementById("sg-finFecondation").innerHTML=localStorage.getItem("ovulation");
+
+
+
+
